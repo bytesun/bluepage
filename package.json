@@ -1,0 +1,42 @@
+{
+  "name": "OCase",
+  "version": "1.0.0",
+  "description": "Personal Space",
+  "homepage": "https://www.sunorth.org/",
+  "keywords": [
+    "case",
+    "solution"
+  ],
+  "private": true,
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bytesun/ocase.git"
+  },
+
+  "engines": {
+    "node": ">= 0.10.0",
+    "npm": ">= 1.0.0"
+  },
+  
+  "dependencies": {
+     "mongodb" : "> 1.1.10",
+	 "express": "~4.2.0",
+    "static-favicon": "~1.0.0",
+    "morgan": "~1.0.0",
+    "cookie-parser": "~1.0.1",
+    "body-parser": "~1.0.0",
+    "debug": "~0.7.4",
+    "ejs": "~0.8.5",
+    "stylus": "0.42.3",
+	"connect-mongodb": "*",
+	"connect-flash": "*",
+	"node-images": "*",
+	"express-session" : "*"
+  },
+
+  "devDependencies": {},
+  "bundleDependencies": [],
+  "private": true,
+  "main": "app.js"
+}
