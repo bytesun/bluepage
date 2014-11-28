@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 //var flash = require('connect-flash');
 //var session = require('express-session')
 
-var config = require('./config');
+//var config = require('./config');
 
 var routes = require('./routes/index');
 
