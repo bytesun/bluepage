@@ -44,8 +44,7 @@ app.use(express.static(__dirname + '/public'));
 
 // routes ==================================================
 app.use('/', index);
-//app.use('/', ocase);
-//app.use('/', todo);
+
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
