@@ -1,10 +1,10 @@
 {
   "name": "OCase",
   "version": "1.0.0",
-  "description": "Personal Space",
+  "description": "An Personal Space",
   "homepage": "https://www.sunorth.org/",
   "keywords": [
-    "case",
+    "personal case",
     "solution"
   ],
   "private": true,
@@ -20,19 +20,17 @@
   },
   
   "dependencies": {
-     "mongodb" : "> 1.1.10",
-	 "express": "~4.2.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
-    "body-parser": "~1.0.0",
-    "debug": "~0.7.4",
-    "ejs": "~0.8.5",
-    "stylus": "0.42.3",
-	"connect-mongodb": "*",
-	"connect-flash": "*",
-	"node-images": "*",
-	"express-session" : "*"
+      "express" : "~4.5.1",
+      "mongoose" : "~3.8.0",
+      "body-parser" : "~1.4.2",
+      "method-override" : "~2.0.2" 
+    	    "static-favicon": "~1.0.0",
+    	    "morgan": "~1.0.0",
+    	    "cookie-parser": "~1.0.1",
+    	    "body-parser": "~1.0.0",
+    	    "debug": "~0.7.4",
+    	    "ejs": "~0.8.5",
+    	    "stylus": "0.42.3",    	  
   },
 
   "devDependencies": {},
