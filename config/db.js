@@ -10,7 +10,7 @@ var User = new Schema({
 	password : String,
 	role : Number,
 	bio : String,
-	tags : [{tag : String}]
+	tags : String
 	
 });
 
@@ -28,7 +28,7 @@ var Favorite = new Schema({
 var OCase = new Schema({
     subject    : String,
     description : String,
-    tags       : [{tag:String}],
+    tags       : String,
     stepid     : Number,
     startdate  : Date,
     endate     : Date,

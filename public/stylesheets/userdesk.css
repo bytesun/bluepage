@@ -1,0 +1,9 @@
+   #case-list input.edit {
+      display: none; /* Hides input box*/
+    }
+    #case-list .editing label {
+      display: none; /* Hides label text when .editing*/
+    }
+    #case-list .editing input.edit {
+      display: inline; /* Shows input text box when .editing*/
+    }

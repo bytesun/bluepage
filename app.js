@@ -4,7 +4,7 @@ var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var path = require('path');
-var favicon = require('static-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 
@@ -22,10 +22,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-app.use(favicon());
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 // parse application/json 
 app.use(bodyParser.json()); 
@@ -44,7 +44,8 @@ app.use(express.static(__dirname + '/public'));
 
 // routes ==================================================
 app.use('/', index);
-
+app.use('/', ocase);
+app.use('/', todo);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

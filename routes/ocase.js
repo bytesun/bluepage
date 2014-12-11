@@ -6,7 +6,7 @@ var OCase     = mongoose.model( 'OCase' );
 /**
  * create a new case
  */
-router.post('/case', function(req, res) {
+router.post('/cases', function(req, res) {
 
 	new OCase(req.body).save( function( err, ocase){
 	    res.send({"error":err,"ocase":ocase});
@@ -16,7 +16,7 @@ router.post('/case', function(req, res) {
 /**
  * get a case by id
  */
-router.get('/case/:id',function(req,res){
+router.get('/cases/:id',function(req,res){
 	OCase.findById(req.params.id,function(err,ocase){
 		res.send({
 			error:err,
@@ -27,7 +27,7 @@ router.get('/case/:id',function(req,res){
 
 
 //list 10 public cases per page
-router.get('/case',function(req,res){
+router.get('/cases',function(req,res){
 	var page = req.query.p ? parseInt(req.query.p) : 1;
 	//page size
 	var ps = req.query.ps ? parseInt(req.query.ps) : 10;
@@ -52,7 +52,7 @@ router.get('/case',function(req,res){
 /**
  * update a case : subject/description/tag
  */
-router.post('/case/:id',function(req,res){
+router.put('/cases/:id',function(req,res){
 	OCase.findByIdAndUpdate(req.params.id,
 			{subject:req.body.subject,
 			 description:req.body.description,
@@ -66,14 +66,14 @@ router.post('/case/:id',function(req,res){
 /**
  * delete a case
  */
-router.delete('/case/:id',function(req,res){
+router.delete('/cases/:id',function(req,res){
 	OCase.remove({_id:req.params.id},function(err,count){
 		res.send({error:err,count:count});
 	});
 });
 
 
-router.post('/step',function(req,res){
+router.post('/steps',function(req,res){
 	OCase.findByIdAndUpdate(req.params.id,
 			{stepid:req.body.stepid,$push:{steps:req.body}},
 			function(err,ocase){
