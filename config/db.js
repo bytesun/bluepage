@@ -29,30 +29,31 @@ var OCase = new Schema({
     subject    : String,
     description : String,
     tags       : String,
-    stepid     : Number,
     startdate  : Date,
     endate     : Date,
     status     : Number,
     ctype      : Number,
     isprivate  : Boolean,
-    uid        : Schema.Types.ObjectId,
-    steps      : [{
-		   stepid:Number,
-		   step:String,
-		   note:String,
-		   startdate:Date,
-		   endate:Date
-    	}]
+    currentStep : Number,
+    uid        : Schema.Types.ObjectId
+
 });
  
+var Step = new Schema({
+	index : Number,
+	step : String,
+	note : String,
+	caseid : Schema.Types.ObjectId,
+	createdate : Date	
+});
 
 var Todo = new Schema({
 	   todo:String,
 	   note:String,
 	   priority:Number,
 	   owner:Schema.Types.ObjectId,
-	   stepid:Number,
 	   caseid:Schema.Types.ObjectId,
+	   stepIndex:Number,
 	   plantime:Date,
 	   dotime:Date,
 	   status:Number
@@ -102,6 +103,7 @@ mongoose.model( 'User', User );
 mongoose.model( 'Follow', Follow );
 mongoose.model( 'Favorite', Favorite );
 mongoose.model( 'OCase', OCase );
+mongoose.model( 'Step', Step );
 mongoose.model( 'Todo', Todo );
 mongoose.model( 'Comment', Comment );
 mongoose.model( 'Tag', Tag );

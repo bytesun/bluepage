@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require( 'mongoose' );
 var OCase     = mongoose.model( 'OCase' );
+var Step = mongoose.model('Step');
+var Todo = mongoose.model('Todo');
 
 /**
  * create a new case
@@ -9,7 +11,7 @@ var OCase     = mongoose.model( 'OCase' );
 router.post('/cases', function(req, res) {
 
 	new OCase(req.body).save( function( err, ocase){
-	    res.send({"error":err,"ocase":ocase});
+	    res.send(ocase);
 	  });
 });
 
@@ -18,16 +20,23 @@ router.post('/cases', function(req, res) {
  */
 router.get('/cases/:id',function(req,res){
 	OCase.findById(req.params.id,function(err,ocase){
-		res.send({
-			error:err,
-			ocase:ocase
-		});
+		res.send(ocase);
 	});
 });
 
+router.get('/cases',function(req,res){
+	res.set('Content-Type', 'application/json');
+	OCase.find({isprivate:false},
+				null,
+				null,function(err,ocases){
+			res.send(ocases);
+	});
+	
+
+});
 
 //list 10 public cases per page
-router.get('/cases',function(req,res){
+router.get('/cases_page',function(req,res){
 	var page = req.query.p ? parseInt(req.query.p) : 1;
 	//page size
 	var ps = req.query.ps ? parseInt(req.query.ps) : 10;
@@ -54,11 +63,9 @@ router.get('/cases',function(req,res){
  */
 router.put('/cases/:id',function(req,res){
 	OCase.findByIdAndUpdate(req.params.id,
-			{subject:req.body.subject,
-			 description:req.body.description,
-			 tags:req.body.tags
-			},
+			req.body,
 			function(err,ocase){
+				console.log("error when update a case:"+err);
 				res.send({error:err,ocase:ocase});
 			});
 });
@@ -72,13 +79,82 @@ router.delete('/cases/:id',function(req,res){
 	});
 });
 
-
-router.post('/steps',function(req,res){
-	OCase.findByIdAndUpdate(req.params.id,
-			{stepid:req.body.stepid,$push:{steps:req.body}},
-			function(err,ocase){
-			res.send({error:err,ocase:ocase});
+router.delete('/cases',function(req,res){
+	OCase.remove(null,function(err,count){
+		res.send({error:err,count:count});
 	});
 });
+//#####################################################################
+//       steps 
+//#####################################################################
+router.get('/steps',function(req,res){
+	res.set('Content-Type', 'application/json');
+	Step.find({caseid:req.query.caseid},
+				null,
+				null,function(err,steps){
+			res.send(steps);
+	});
+});
+
+router.post('/steps',function(req,res){
+	new Step(req.body).save( function( err, step){
+	    res.send(step);
+	  });
+});
+
+router.put('/steps/:id',function(req,res){
+	Step.findByIdAndUpdate(req.params.id,
+			{step:req.body.step,
+			 note:req.body.note
+			},
+			function(err,step){
+				console.log("error when update a step:"+err);
+				res.send({error:err,step:step});
+			});
+});
+
+router.delete('/steps',function(req,res){
+	Step.remove(function(err,count){
+		res.send({error:err,count:count});
+	});
+});
+//#####################################################################
+//TODOS
+//#####################################################################
+router.get('/todos',function(req,res){
+	res.set('Content-Type', 'application/json');
+	Todo.find({caseid:req.query.caseid,stepIndex:req.query.stepIndex},
+				null,
+				null,function(err,todos){
+			res.send(todos);
+	});
+});
+
+router.post('/todos',function(req,res){
+	new Todo(req.body).save( function( err, todo){
+	    res.send(todo);
+	  });
+});
+
+router.put('/todos/:id',function(req,res){
+	Todo.findByIdAndUpdate(req.params.id,
+			{todo:req.body.todo,
+			 note:req.body.note
+			},
+			function(err,ocase){
+				console.log("error when update a todo:"+err);
+				res.send({error:err,todo:todo});
+			});
+});
+
+router.delete('/todos',function(req,res){
+	Todo.remove(function(err,count){
+		res.send({error:err,count:count});
+	});
+});
+//#####################################################################
+//Comments
+//#####################################################################
+
 
 module.exports = router;
