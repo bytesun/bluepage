@@ -55,7 +55,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">SunSpace</a>
+      <a class="navbar-brand" href="/">SunSpace</a>
     </div>
       <ul class="nav navbar-nav">
         
@@ -107,10 +107,10 @@
 	<hr>
 
 	<p><%-description%></p>	
- 	<p><%=startdate%> 
-	<button name="step-new" class="glyphicon glyphicon-random js-newStep" ></button>
+ 	<p><%=startdate%></p>
+	<button name="step-new" class="glyphicon glyphicon-plus btn btn-success js-newStep" >Step</button>
 
-	</p>
+	
 	
 </script>
 
@@ -143,18 +143,18 @@
 	<div id="todo-region"></div>
  </script>
  <script type="text/template" id="step-item-template">
-		<a class="tabindex" href="#<%= index %>" data-toggle="tab"> <%= index %>-<%=step%> </a>
+		<a class="tabindex" href="#<%= index %>" data-toggle="tab"> [<%= index %>]<%=step%> </a>
 </script>
 
  <script type="text/template" id="step-tab-content-template">
 <div class="tab-content">
 	<div  class="tab-pane active">
-
-		<div >
-			 <%-note%>
-		 
+		
+		<div class="row">
+			<p> <%-note%></p>
 		</div>
 	    <div class="todolist">
+			
 		</div>
 	</div>
 

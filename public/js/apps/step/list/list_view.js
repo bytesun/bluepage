@@ -62,7 +62,7 @@ MySpace.module("StepApp.List",function(List,MySpace,Backbone,Marionette,$,_){
 			this.theStepIndex=options.theIndex;
 		},
 		events:{
-			"click a.js-newTodo":"newTodoClicked"
+			"click button.js-newTodo":"newTodoClicked"
 		},
 		
 		attributes:function(){
@@ -76,7 +76,7 @@ MySpace.module("StepApp.List",function(List,MySpace,Backbone,Marionette,$,_){
 		onRender: function(){
 			if(this.model.get('index')===this.theStepIndex){
 				this.$el.addClass('active');
-				this.$(".todolist").append('<a name="todo-new" class="glyphicon glyphicon-plus js-newTodo"></a>');
+				this.$(".todolist").append('<button name="todo-new" class="glyphicon glyphicon-plus btn btn-success js-newTodo">CheckItem</button>');
 			}
 		}
 	});
