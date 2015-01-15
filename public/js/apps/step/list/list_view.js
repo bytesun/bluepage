@@ -48,7 +48,7 @@ MySpace.module("StepApp.List",function(List,MySpace,Backbone,Marionette,$,_){
 			      childIndex: index}
 		},
 		onCollectionRendered:function(){
-			
+			console.log('rerender step collection');
 			this.appendHtml = function(collectionView, itemView, index){
 				 collectionView.$el.prepend(itemView.el);
 			}
@@ -71,6 +71,7 @@ MySpace.module("StepApp.List",function(List,MySpace,Backbone,Marionette,$,_){
 //				
 		newTodoClicked:function(e){
 			e.preventDefault();
+			console.log('click new todo button');
 			this.trigger("todo:form",this.model);
 		},
 		onRender: function(){

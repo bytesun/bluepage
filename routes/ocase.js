@@ -65,7 +65,6 @@ router.put('/cases/:id',function(req,res){
 	OCase.findByIdAndUpdate(req.params.id,
 			req.body,
 			function(err,ocase){
-				console.log("error when update a case:"+err);
 				res.send({error:err,ocase:ocase});
 			});
 });

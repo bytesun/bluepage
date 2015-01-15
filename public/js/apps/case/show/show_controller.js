@@ -41,7 +41,11 @@ MySpace.module("CaseApp.Show", function(Show, MySpace,Backbone, Marionette, $, _
 								collection: steps,
 								theIndex:ocase.get('currentStep')
 							});
-
+							
+							//need to refresh the new active tab
+							steps.on("add",function(step){
+								
+							});
 //							var stepContentView = new MySpace.StepApp.List.StepContentView({
 //								model:steps.at(ocase.get('currentStep')-1)
 //							});
@@ -53,19 +57,21 @@ MySpace.module("CaseApp.Show", function(Show, MySpace,Backbone, Marionette, $, _
 
 							caseShowLayout.stepsViewRegion.show(stepListLayout);
 							
-							
 							//-----------------------------todo---------------------------------------
 							stepsIndexView.on("childview:step:listTodos",function(childView,step){
 								console.log('trigger the list todo events');
 								var fetchingTodos = MySpace.request("entities:todos",ocase.get("_id"),step.get('index'));
 								$.when(fetchingTodos).done(function(todos){
 									
+									list_todos=todos;
 									var todoListView = new MySpace.TodoApp.List.TodoCollectionView({
 										collection : todos
 									});
+									
 										stepListLayout.todoRegion.show(todoListView);
 										//listen the new todo button event
 										stepContentView.on("childview:todo:form",function(childView,step){
+											console.log('trigger todo form event');
 											var newTodo = new MySpace.Entities.Todo({
 												caseid:ocase.get("_id"),
 												stepIndex:ocase.get('currentStep')
@@ -86,7 +92,7 @@ MySpace.module("CaseApp.Show", function(Show, MySpace,Backbone, Marionette, $, _
 													}
 												});
 											});
-										});									
+										});	//end todo form listen								
 								});
 							});
 						
