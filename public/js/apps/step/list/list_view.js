@@ -13,6 +13,7 @@ MySpace.module("StepApp.List",function(List,MySpace,Backbone,Marionette,$,_){
 			this.trigger("step:listTodos",this.model);
 		},
 		onBeforeRender: function(){
+			console.log('calling onbeforerender');
 			if(this.model.get('index')===this.theStepIndex){
 				console.log('before render');
 				this.trigger("step:listTodos",this.model);
