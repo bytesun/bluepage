@@ -62,6 +62,7 @@ router.get('/cases_page',function(req,res){
  * update a case : subject/description/tag
  */
 router.put('/cases/:id',function(req,res){
+	console.log("update information :"+req.body);
 	OCase.findByIdAndUpdate(req.params.id,
 			req.body,
 			function(err,ocase){

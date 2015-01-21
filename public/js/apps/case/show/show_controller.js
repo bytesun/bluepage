@@ -118,7 +118,7 @@ MySpace.module("CaseApp.Show", function(Show, MySpace,Backbone, Marionette, $, _
 												console.log("successfully update the case");
 											},
 											error:function(ocase, response, options){
-												console.log("failed to update case");
+												console.log("failed to update case"+response);
 											}
 										});
 										
