@@ -1,0 +1,25 @@
+<%- include header %>
+	<!-- case list table -->
+	<div class="container">
+		<div class="col-md-12">
+			<form method="post" action="/cases/new">
+					<input type="hidden" name="isprivate" value="false">
+					<input type="hidden" name="status" value="0">
+					<input type="hidden" name="ctype" value="1">
+					<input type="hidden" name="currentStep" value="0">
+				
+				  Case:<br />
+				  <input type="text" name="subject" size=100/><br />
+				  Description: <br />
+				  <textarea class="richtextarea" name="description" rows="20" cols="100"></textarea><br />
+				  
+				  Tags:
+				  <input type="text" name="tags" />
+				  
+				  <input type="submit" value="Save" />
+				</form>	
+		</div>
+	</div>
+	
+	
+<%- include footer %>

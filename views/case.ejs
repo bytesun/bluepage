@@ -7,7 +7,9 @@
 						<%-ocase.description%>	
 						
 		<!-- phases -->				
-	
+		<% if(steps != null){ steps.forEach(function(step){%>
+			<%=step.step%>
+		<% })} %>
 		</div>
 	</div>
 	

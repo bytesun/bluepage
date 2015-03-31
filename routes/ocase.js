@@ -10,6 +10,20 @@ var Todo = mongoose.model('Todo');
 /**
  * express model
  */
+
+router.get('/cases/init', function(req,res){
+	res.render('case_new');
+
+});
+
+router.post('/cases/new', function(req,res){
+	new OCase(req.body).save( function( err, ocase){
+		res.render('case',{ocase:ocase,steps:null});	
+	  });
+
+});
+
+
 router.get('/cases/list', function(req,res){
 	OCase.find({isprivate:false},
 			null,
@@ -20,8 +34,15 @@ router.get('/cases/list', function(req,res){
 });
 
 router.get('/cases/:id', function(req,res){
-	OCase.findById(req.params.id,function(err,ocase){
-		res.render('case',{ocase:ocase});
+	var caseid = req.params.id;
+	OCase.findById(caseid,function(err,ocase){
+		//get steps
+		Step.find(caseid,
+				null,
+				null,function(err,steps){
+			res.render('case',{ocase:ocase,steps:steps});	
+		});	
+		
 	});
 });
 
