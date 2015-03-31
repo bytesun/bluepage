@@ -14,10 +14,17 @@ router.get('/cases/list', function(req,res){
 	OCase.find({isprivate:false},
 			null,
 			null,function(err,ocases){
-		res.render('case_list',{ocases:ocases,test:'test'});
+		res.render('case_list',{ocases:ocases});
 	});
 	
 });
+
+router.get('/cases/:id', function(req,res){
+	OCase.findById(req.params.id,function(err,ocase){
+		res.render('case',{ocase:ocase});
+	});
+});
+
 
 /**
  * --------------------------------------------------
