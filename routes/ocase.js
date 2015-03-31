@@ -5,6 +5,18 @@ var OCase     = mongoose.model( 'OCase' );
 var Step = mongoose.model('Step');
 var Todo = mongoose.model('Todo');
 
+
+router.get('/cases/list', function(req,res){
+	res.render('case_list',{test:'cool'});
+});
+
+/**
+ * --------------------------------------------------
+ * Backbone model
+ * -------------------------------------------------- 
+ */
+
+
 /**
  * create a new case
  */
@@ -61,14 +73,34 @@ router.get('/cases_page',function(req,res){
 /**
  * update a case : subject/description/tag
  */
+//router.put('/cases/:id',function(req,res){
+//	console.log(JSON.stringify(req.body));
+//	OCase.findById(req.params.id,
+//			function(err,ocase){
+//				ocase.set(req.body);
+//				ocase.save(function(err,ocase){
+//					console.log('update err:'+err);
+//					res.send(ocase);
+//					
+//				});
+//			});
+//});
 router.put('/cases/:id',function(req,res){
+	console.log(JSON.stringify(req.body));
 	OCase.findByIdAndUpdate(req.params.id,
-			req.body,
+			//req.body, //work fine on 2.6
+			{$set :{subject    : req.body.subject,
+	    description : req.body.description,
+	    tags       : req.body.tags,
+
+	    currentStep : req.body.currentStep
+
+			}},
 			function(err,ocase){
+				console.log('update err:'+err);
 				res.send(ocase);
 			});
 });
-
 /**
  * delete a case
  */

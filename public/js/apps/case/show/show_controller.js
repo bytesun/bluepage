@@ -113,12 +113,12 @@ MySpace.module("CaseApp.Show", function(Show, MySpace,Backbone, Marionette, $, _
 										newStepView.trigger("dialog:close");
 										//update case's current index
 
-										ocase.save({"currentStep":theStep},{
-											success:function(model,res,opts){
+										ocase.save({ currentStep : theStep },{
+											success:function(ocase,res,opts){
 												console.log("successfully update the case");
 											},
 											error:function(ocase, response, options){
-												console.log("failed to update case"+response);
+												console.log("failed to update case"+JSON.stringify(response));
 											}
 										});
 										
