@@ -7,7 +7,12 @@ var Todo = mongoose.model('Todo');
 
 
 router.get('/cases/list', function(req,res){
-	res.render('case_list',{test:'cool'});
+	OCase.find({isprivate:false},
+			null,
+			null,function(err,ocases){
+		res.render('case_list',{cases:ocases});
+	});
+	
 });
 
 /**
