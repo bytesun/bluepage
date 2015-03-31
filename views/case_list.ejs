@@ -54,8 +54,11 @@
 		<div class="col-md-8">
 			<ul class="list-group">
 				<% cases.forEach(function (case, index) { %>
-			  		<li class="list-group-item"><%=case.subject%></li>
-			  	<% }%>
+			  		<li class="list-group-item">
+			  			<h2><%=case.subject%></h2>
+			  			<%=case.description%>
+			  		</li>
+			  	<% })%>
 			</ul>
 		</div>
 	</div>
