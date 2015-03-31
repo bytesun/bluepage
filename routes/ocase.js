@@ -6,11 +6,15 @@ var Step = mongoose.model('Step');
 var Todo = mongoose.model('Todo');
 
 
+
+/**
+ * express model
+ */
 router.get('/cases/list', function(req,res){
 	OCase.find({isprivate:false},
 			null,
 			null,function(err,ocases){
-		res.render('case_list',{cases:ocases});
+		res.render('case_list',{ocases:ocases,test:'test'});
 	});
 	
 });
