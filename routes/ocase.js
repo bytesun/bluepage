@@ -37,12 +37,16 @@ router.get('/cases/list', function(req,res){
 
 router.get('/cases/:id', function(req,res){
 	var caseid = req.params.id;
+	var uid = 0;
+	if(req.isAuthenticated()){
+		uid = req.user._id;
+	}
 	OCase.findById(caseid,function(err,ocase){
 		//get steps
 		Step.find({caseid:caseid},
 				null,
 				null,function(err,steps){
-			res.render('case',{ocase:ocase,steps:steps});	
+			res.render('case',{uid:uid,ocase:ocase,steps:steps});	
 		});	
 		
 	});

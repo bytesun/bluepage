@@ -19,13 +19,17 @@
 		</div>
 		</div>
 		
+		
 		<div class="row">
+
+		<% if(uid+'' == ocase.uid+''){%>
 			<form method="post" action="/steps/new">
 					<input type="hidden" name="caseid" value="<%=ocase._id%>">
 				  	New Step : <input  name="step" /><br>
 		  
 				  <input type="submit" value="Save" />
-				</form>			
+				</form>
+		<%}%>					
 		</div>
 	</div>
 	
