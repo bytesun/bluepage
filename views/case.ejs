@@ -1,15 +1,31 @@
 <%- include header %>
 	<!-- case list table -->
 	<div class="container">
+		<div class="row">
 		<div class="col-md-12">
 		<h1><%=ocase.subject%></h1>
 		<hr>
 		<%-ocase.description%>	
 						
-		<!-- phases -->				
-		<% if(steps != null){ steps.forEach(function(step){%>
-			<%=step.step%>
-		<% })} %>
+		<!-- phases -->	
+					
+		<% if(steps != null){%>
+		<ul class="list-group"> 
+		<% steps.forEach(function(s){%>
+			<li class="list-group-item"><%=s.step%></li>
+		<% })%>
+		</ul>
+		<%} %>
+		</div>
+		</div>
+		
+		<div class="row">
+			<form method="post" action="/steps/new">
+					<input type="hidden" name="caseid" value="<%=ocase._id%>">
+				  	New Step : <input  name="step" /><br>
+		  
+				  <input type="submit" value="Save" />
+				</form>			
 		</div>
 	</div>
 	

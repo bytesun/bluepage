@@ -1,10 +1,11 @@
 var mongoose = require( 'mongoose' );
+var Hash = require('password-hash');
 var Schema   = mongoose.Schema;
 
 //users
 var User = new Schema({
 	uid : String,
-	uname : String,
+	username : String,
 	openid : String,
 	email : String,
 	password : String,
@@ -13,6 +14,7 @@ var User = new Schema({
 	tags : String
 	
 });
+
 
 var Follow = new Schema({
 	follower : Schema.Types.ObjectId,
@@ -97,7 +99,6 @@ var Message = new Schema({
 var Trace = new Schema({
 	
 });
-
 
 mongoose.model( 'User', User );
 mongoose.model( 'Follow', Follow );

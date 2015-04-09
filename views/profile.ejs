@@ -1,0 +1,25 @@
+<%- include header %>
+	<!-- case list table -->
+	<div class="container">
+		<div class="col-md-12">
+		<h1><%=user.username%></h1>
+		<hr>
+
+			<ul class="list-group">
+				<% ocases.forEach(function (thecase,index){ %>
+					<li class="list-group-item">
+						<h2>
+						<a href="/cases/<%=thecase.id%>">
+						<%=thecase.subject%>
+						</a>
+						</h2>
+						<%-thecase.description%>	
+					</li>
+				<% }) %>
+
+			</ul>						
+
+	</div>
+	
+	
+<%- include footer %>

@@ -17,12 +17,14 @@ router.get('/cases/init', function(req,res){
 });
 
 router.post('/cases/new', function(req,res){
+	if(req.isAuthenticated()){
+		req.body.uid=req.user._id;
+	}
 	new OCase(req.body).save( function( err, ocase){
 		res.render('case',{ocase:ocase,steps:null});	
 	  });
 
 });
-
 
 router.get('/cases/list', function(req,res){
 	OCase.find({isprivate:false},
@@ -37,7 +39,7 @@ router.get('/cases/:id', function(req,res){
 	var caseid = req.params.id;
 	OCase.findById(caseid,function(err,ocase){
 		//get steps
-		Step.find(caseid,
+		Step.find({caseid:caseid},
 				null,
 				null,function(err,steps){
 			res.render('case',{ocase:ocase,steps:steps});	
@@ -46,7 +48,12 @@ router.get('/cases/:id', function(req,res){
 	});
 });
 
-
+router.post('/steps/new',function(req,res){
+	new Step(req.body).save( function( err, step){
+		console.log('step:'+step);
+	    res.redirect('/cases/'+step.caseid);
+	  });
+});
 /**
  * --------------------------------------------------
  * Backbone model
