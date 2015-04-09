@@ -3,33 +3,63 @@
 	<div class="container">
 		<div class="row">
 		<div class="col-md-12">
-		<h1><%=ocase.subject%></h1>
-		<hr>
-		<%-ocase.description%>	
-						
-		<!-- phases -->	
-					
-		<% if(steps != null){%>
-		<ul class="list-group"> 
-		<% steps.forEach(function(s){%>
-			<li class="list-group-item"><%=s.step%></li>
-		<% })%>
-		</ul>
-		<%} %>
+			<h1><%=ocase.subject%></h1>
+			<hr>
+			<%-ocase.description%>	
 		</div>
-		</div>
+		</div> 
 		
 		
 		<div class="row">
+		<div class="col-md-8">
+				
+			<!-- phases -->	
+						
+				<% if(steps != null){%>
+				<ul class="list-group"> 
+				<% steps.forEach(function(s){%>
+					<li class="list-group-item"><%=s.step%></li>
+				<% })%>
+				</ul>
+				<%} %>
 
-		<% if(uid+'' == ocase.uid+''){%>
-			<form method="post" action="/steps/new">
-					<input type="hidden" name="caseid" value="<%=ocase._id%>">
-				  	New Step : <input  name="step" /><br>
-		  
-				  <input type="submit" value="Save" />
-				</form>
-		<%}%>					
+		
+	
+			<% if(uid+'' == ocase.uid+''){%>
+				<form method="post" action="/steps/new">
+						<input type="hidden" name="caseid" value="<%=ocase._id%>">
+					  	New Step : <input  name="step" /><br>
+			            Note: <textarea name="note"> </textarea> 
+					  <input type="submit" value="Save" />
+					</form>
+			<%}%>	
+			</div>
+			
+			<!-- comments list -->
+			
+		<div class="col-md-4">
+			
+		
+		<% if(uid+'' != '0'){%>
+			<form method="post" action="/comments/new">
+						<input type="hidden" name="caseid" value="<%=ocase._id%>">
+			            <br> <textarea name="comment"> </textarea> <br>
+					  <input type="submit" value="Save" />
+			</form>
+
+		<%}%>	
+					
+				<% if(comments != null && comments!=''){%>
+				<ul class="list-group"> 
+				<% comments.forEach(function(c){%>
+					<li class="list-group-item"><%=c.comment%></li>
+				<% })%>
+				</ul>
+				<%}else{%>
+					There is no comments!  
+				<%}%>
+			
+		</div>	
 		</div>
 	</div>
 	

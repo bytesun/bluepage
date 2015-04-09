@@ -4,7 +4,7 @@ var mongoose = require( 'mongoose' );
 var OCase     = mongoose.model( 'OCase' );
 var Step = mongoose.model('Step');
 var Todo = mongoose.model('Todo');
-
+var Comment = mongoose.model('Comment');
 
 
 /**
@@ -12,16 +12,29 @@ var Todo = mongoose.model('Todo');
  */
 
 router.get('/cases/init', function(req,res){
+	if(!req.isAuthenticated()){
+		res.redirect('/login');
+	}
 	res.render('case_new');
 
 });
 
 router.post('/cases/new', function(req,res){
+	var newcase = {
+			status:0,
+			startdate:new Date(),
+			currentstep:0,
+			ctype:0,
+			uid:0};
+	
 	if(req.isAuthenticated()){
-		req.body.uid=req.user._id;
+		newcase.uid=req.user._id;
 	}
-	new OCase(req.body).save( function( err, ocase){
-		res.render('case',{ocase:ocase,steps:null});	
+	newcase.isprivate = req.body.isprivate;
+	newcase.subject = req.body.subject;
+	newcase.description = req.body.description;
+	new OCase(newcase).save( function( err, ocase){
+		res.render('case',{uid:newcase.uid,ocase:ocase,steps:null,comments:null});	
 	  });
 
 });
@@ -46,7 +59,15 @@ router.get('/cases/:id', function(req,res){
 		Step.find({caseid:caseid},
 				null,
 				null,function(err,steps){
-			res.render('case',{uid:uid,ocase:ocase,steps:steps});	
+			
+			//find comments
+			Comment.find({caseid:caseid},
+					null,
+					null,
+					function(err,comments){
+				res.render('case',{uid:uid,ocase:ocase,steps:steps,comments:comments});	
+			});
+				
 		});	
 		
 	});
@@ -234,6 +255,14 @@ router.delete('/todos',function(req,res){
 //#####################################################################
 //Comments
 //#####################################################################
-
+router.post('/comments/new',function(req,res){
+	var comment = {ctime:new Date()};
+	comment.uid = req.body.uid;
+	comment.caseid=req.body.caseid;
+	comment.comment = req.body.comment;
+	new Comment(comment).save(function(err,comment){
+		res.redirect('/cases/'+comment.caseid);
+	});
+});
 
 module.exports = router;

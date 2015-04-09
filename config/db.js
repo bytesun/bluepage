@@ -64,10 +64,8 @@ var Todo = new Schema({
 var Comment = new Schema({
 	    comment:String,
 		ctime:Date,
-		who:Schema.Types.ObjectId,
-		status:Number,
-		ctype:Number,
-		refid:Schema.Types.ObjectId
+		uid:Schema.Types.ObjectId,
+		caseid:Schema.Types.ObjectId
 });
 
 var Tag = new Schema({
