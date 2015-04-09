@@ -15,7 +15,7 @@ var express        = require('express');
 // configuration ===========================================
 // config files
 var db = require('./config/db');
-var auth = require('./config/auth');
+
 var index = require('./routes/index');
 var user = require('./routes/user');
 var ocase = require('./routes/ocase');
