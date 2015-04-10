@@ -3,16 +3,25 @@
 	<div class="container">
 		<div class="col-md-12">
 			<form method="post" action="/cases/new">
-					<input type="hidden" name="isprivate" value="false">
-				  Case:<br />
-				  <input type="text" name="subject" size=100/><br />
-				  Description: <br />
-				  <textarea class="richtextarea" name="description" rows="20" cols="100"></textarea><br />
+			
+			      <h1>Create a new case :</h1>
+				  <input type="hidden" name="isprivate" value="false">
 				  
-				  Tags:
+				  <div class="form-group">  	
+					   <input  class="form-control" type="text" name="subject" placeholder="case subject" required autofocus/>
+				  </div>
+				  
+				  <div class="form-group"> 
+				  	 <label> Description: </label>
+				  	<textarea class="form-control" name="description" rows="20" required></textarea>
+				  </div>
+				  <div class="form-group">
+				  <label>Tags:</label>
 				  <input type="text" name="tags" />
+				   <input type="submit" value="Save" />
+				  </div>
 				  
-				  <input type="submit" value="Save" />
+				 
 				</form>	
 		</div>
 	</div>

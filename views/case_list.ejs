@@ -2,19 +2,20 @@
 	<!-- case list table -->
 	<div class="container">
 		<div class="col-md-12">
-			<ul class="list-group">
+			<table class="table">
 				<% ocases.forEach(function (thecase,index){ %>
-					<li class="list-group-item">
+					<tr><td>
 						<h2>
 						<a href="/cases/<%=thecase.id%>">
 						<%=thecase.subject%>
 						</a>
 						</h2>
-						<%-thecase.description%>	
-					</li>
+						<%=thecase.tags%> <%=thecase.startdate%>
+						<p><%-thecase.description%></p>	
+					</td></tr>
 				<% }) %>
 
-			</ul>
+			</table>
 		</div>
 	</div>
 	   

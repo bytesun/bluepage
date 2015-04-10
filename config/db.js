@@ -46,7 +46,8 @@ var Step = new Schema({
 	step : String,
 	note : String,
 	caseid : Schema.Types.ObjectId,
-	createdate : Date	
+	createdate : Date,
+	subcase : Schema.Types.ObjectId
 });
 
 var Todo = new Schema({

@@ -74,10 +74,37 @@ router.get('/cases/:id', function(req,res){
 });
 
 router.post('/steps/new',function(req,res){
-	new Step(req.body).save( function( err, step){
-		console.log('step:'+step);
-	    res.redirect('/cases/'+step.caseid);
-	  });
+
+
+	//create a new case
+	if(req.body.isSubCase){
+		new OCase({status:0,
+			startdate:new Date(),
+			currentstep:0,
+			ctype:0,
+			uid:0,
+			isprivate:req.body.isprivate,
+			subject:req.body.step,
+			description:req.body.note,
+			uid:req.user._id}).save(function(err,sc){
+				new Step({step:req.body.step,
+					note:req.body.note,
+					caseid:req.body.caseid,
+					subcase:sc._id,
+					createdate:new Date()}).save( function( err, step){
+					console.log('step:'+step);
+				    res.redirect('/cases/'+step.caseid);
+				  });
+			});
+	}else{
+		new Step({step:req.body.step,
+			note:req.body.note,
+			caseid:req.body.caseid,
+			createdate:new Date()}).save( function( err, step){
+			console.log('step:'+step);
+		    res.redirect('/cases/'+step.caseid);
+		  });
+	}
 });
 /**
  * --------------------------------------------------
@@ -175,15 +202,18 @@ router.put('/cases/:id',function(req,res){
  */
 router.delete('/cases/:id',function(req,res){
 	OCase.remove({_id:req.params.id},function(err,count){
-		res.send({error:err,count:count});
+		//delete steps
+		Step.remove({caseid:req.params.id},function(err,scnt){
+			//delete comments
+			Comment.remove({caseid:req.params.id},function(err,ccnt){
+				res.send({error:err,count:count,stepcnt:scnt,commentcnt:ccnt});
+			});
+		});
+		
 	});
 });
 
-router.delete('/cases',function(req,res){
-	OCase.remove(null,function(err,count){
-		res.send({error:err,count:count});
-	});
-});
+
 //#####################################################################
 //       steps 
 //#####################################################################
