@@ -37,6 +37,7 @@ var OCase = new Schema({
     ctype      : Number,
     isprivate  : Boolean,
     currentStep : Number,
+    summary    : String,
     uid        : Schema.Types.ObjectId
 
 });
@@ -56,8 +57,6 @@ var Todo = new Schema({
 	   priority:Number,
 	   owner:Schema.Types.ObjectId,
 	   caseid:Schema.Types.ObjectId,
-	   stepIndex:Number,
-	   plantime:Date,
 	   dotime:Date,
 	   status:Number
 });
@@ -65,6 +64,7 @@ var Todo = new Schema({
 var Comment = new Schema({
 	    comment:String,
 		ctime:Date,
+		status:Number,
 		uid:Schema.Types.ObjectId,
 		caseid:Schema.Types.ObjectId
 });

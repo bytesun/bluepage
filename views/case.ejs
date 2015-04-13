@@ -15,24 +15,25 @@
 		<div class="row">
 			<div class="col-md-8">
 				<% if(uid+'' == ocase.uid+''){%>
-	
+	             <div class="panel panel-default">
+  					<div class="panel-body">
 					<form method="post" action="/steps/new">
 				   <div class="form-group">
 				   		<input type="hidden" name="isprivate" value="<%=ocase.isprivate%>">
 						<input type="hidden" name="caseid" value="<%=ocase._id%>">
-					  	<label>New Step :</label>
-					  	<input class="form-control"  name="step" required autofocus/>
+					  	<input class="form-control"  name="step" placeholder="new step" required autofocus/>
 					</div>  	
 					<div class="form-group">  	
 			            <label>Note:</label> 
 			            <textarea class="form-control" name="note" required> </textarea>
 			         </div>
 			         <div class="form-group">  
-	     				<div class="checkbox">
-	     					<input type="checkbox" name="isSubCase">Create sub-case?
-	     				</div>
-						    <input type="submit" value="Save" />
-					</div>    
+	     					<input type="checkbox" name="isSubCase">Create sub-case? 
+	     					<input type="submit" value="Save" />
+						    
+						</div> 
+					   </div> <!--end of panel-body-->
+					</div>   
 					</form>
 			<%}%>	<!--end if -->
 				
@@ -43,11 +44,11 @@
 				<% steps.forEach(function(s){%>
 					<li class="list-group-item">
 					<% if (s.subcase == undefined){%>
-					<h3><%=s.step%></h3>
+					<h3 class="glyphicon glyphicon-check"><%=s.step%></h3>
 					<%}else{%>  
-					<a href="/cases/<%=s.subcase%>"+><h3><%=s.step%></h3></a>
+					<a href="/cases/<%=s.subcase%>"+><h3 class="glyphicon glyphicon-check"><%=s.step%></h3></a>
 					<%}%>
-					<%=s.createdate%>
+					<p><%=s.createdate%></p>
 					<p><%=s.note%></p>
 					</li>
 				<% })%>
@@ -61,9 +62,10 @@
 			<!-- comments list -->
 			
 		<div class="col-md-4">
-			
+			<div class="row">
 		
-		<% if(uid+'' != '0'){%>
+		<% if(uid+'' != '0' && uid+'' != ocase.uid+''){%>
+		
 			<form method="post" action="/comments/new">
 				<div class="form-group">  	
 						<label>Comment:</lable>
@@ -87,9 +89,11 @@
 					There is no comments!  
 				<%}%>
 			
-		</div>	
-		</div>
-	</div>
+			</div>	<!-- end of row -->
+		</div> <!-- end of col-->
+		
+	</div><!-- end of row -->
+</div>	
 	
 	
 <%- include footer %>

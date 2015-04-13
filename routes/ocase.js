@@ -40,10 +40,24 @@ router.post('/cases/new', function(req,res){
 });
 
 router.get('/cases/list', function(req,res){
-	OCase.find({isprivate:false},
-			null,
-			null,function(err,ocases){
-		res.render('case_list',{ocases:ocases});
+	var page = req.query.p ? parseInt(req.query.p) : 1;
+	var query = {isprivate:false};
+	var perPage = 5;
+	OCase.count(query).exec(function(err, total) {
+		OCase.find(query)
+	          .limit(perPage)
+	          .skip((page-1)*perPage)
+	          .sort({startdate:-1})
+	          .exec(function(err,ocases){
+              res.render('case_list', {
+            	  ocases:ocases,
+                  page: page,
+                  isFirstPage: (page - 1) == 0,
+        		  isLastPage: ((page - 1) * perPage + ocases.length) == total
+
+              })
+          });        	  
+		
 	});
 	
 });

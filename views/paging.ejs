@@ -1,0 +1,10 @@
+
+<ul class="pager">
+	<% if (!isFirstPage) { %>
+		<li><a title="PrePage" href="?p=<%= page-1 %>">Previous</a></li>
+   <% } %>
+   <li class="text-success"><%= page %></li>
+   <% if (!isLastPage) { %>
+	<li><a title="NextPage" href="?p=<%= page+1 %>">Next</a></li>
+  <% } %>
+</ul>
