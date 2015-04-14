@@ -8,6 +8,9 @@ var Step = mongoose.model('Step');
 var Todo = mongoose.model('Todo');
 
 router.get('/login', function(req, res) {
+	if(req.user != null){
+		res.redirect('/userprofile');
+	}
     res.render('login');
 });
 

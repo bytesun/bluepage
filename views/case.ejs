@@ -37,14 +37,14 @@
 					</form>
 			<%}%>	<!--end if -->
 				
-			<!-- phases -->	
+			<!-- Steps -->	
 			<div>			
 				<% if(steps != null){%>
 				<ul class="list-group"> 
 				<% steps.forEach(function(s){%>
 					<li class="list-group-item">
 					<% if (s.subcase == undefined){%>
-					<h3 class="glyphicon glyphicon-check"><%=s.step%></h3>
+					<h3 class=""><%=s.step%></h3>
 					<%}else{%>  
 					<a href="/cases/<%=s.subcase%>"+><h3 class="glyphicon glyphicon-check"><%=s.step%></h3></a>
 					<%}%>
