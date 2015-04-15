@@ -130,12 +130,12 @@ router.post('/steps/new',function(req,res){
 /**
  * create a new case
  */
-router.post('/cases', function(req, res) {
-
-	new OCase(req.body).save( function( err, ocase){
-	    res.send(ocase);
-	  });
-});
+//router.post('/cases', function(req, res) {
+//
+//	new OCase(req.body).save( function( err, ocase){
+//	    res.send(ocase);
+//	  });
+//});
 
 /**
  * get a case by id
