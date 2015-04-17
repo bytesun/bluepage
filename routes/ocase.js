@@ -100,13 +100,13 @@ router.post('/steps/new',function(req,res){
 			isprivate:req.body.isprivate,
 			subject:req.body.step,
 			description:req.body.note,
+			parentid:req.body.caseid,
 			uid:req.user._id}).save(function(err,sc){
 				new Step({step:req.body.step,
 					note:req.body.note,
 					caseid:req.body.caseid,
 					subcase:sc._id,
 					createdate:new Date()}).save( function( err, step){
-					console.log('step:'+step);
 				    res.redirect('/cases/'+step.caseid);
 				  });
 			});
@@ -120,6 +120,8 @@ router.post('/steps/new',function(req,res){
 		  });
 	}
 });
+
+
 /**
  * --------------------------------------------------
  * Backbone model
@@ -130,23 +132,23 @@ router.post('/steps/new',function(req,res){
 /**
  * create a new case
  */
-//router.post('/cases', function(req, res) {
-//
-//	new OCase(req.body).save( function( err, ocase){
-//	    res.send(ocase);
-//	  });
-//});
+router.post('/api/cases', function(req, res) {
+
+	new OCase(req.body).save( function( err, ocase){
+	    res.send(ocase);
+	  });
+});
 
 /**
  * get a case by id
  */
-router.get('/cases/:id',function(req,res){
+router.get('/api/cases/:id',function(req,res){
 	OCase.findById(req.params.id,function(err,ocase){
 		res.send(ocase);
 	});
 });
 
-router.get('/cases',function(req,res){
+router.get('/api/cases',function(req,res){
 	res.set('Content-Type', 'application/json');
 	OCase.find({isprivate:false},
 				null,
@@ -158,27 +160,27 @@ router.get('/cases',function(req,res){
 });
 
 //list 10 public cases per page
-router.get('/cases_page',function(req,res){
-	var page = req.query.p ? parseInt(req.query.p) : 1;
-	//page size
-	var ps = req.query.ps ? parseInt(req.query.ps) : 10;
-	res.set('Content-Type', 'application/json');
-	OCase.count({isprivate:false},function(err,count){//fetch the count first.
-		OCase.find({isprivate:false},
-				null,
-				{skip:(page-1)*ps,limit:ps},function(err,ocases){
-			res.send(
-				{error:err,
-				count:count,
-				page:page,
-				isFirstPage: (page - 1) == 0,
-				isLastPage: ((page - 1) * ps + ocases.length) == count,
-				cases:ocases});
-		});
-	});
-	
-
-});
+//router.get('/api/cases',function(req,res){
+//	var page = req.query.p ? parseInt(req.query.p) : 1;
+//	//page size
+//	var ps = req.query.ps ? parseInt(req.query.ps) : 10;
+//	res.set('Content-Type', 'application/json');
+//	OCase.count({isprivate:false},function(err,count){//fetch the count first.
+//		OCase.find({isprivate:false},
+//				null,
+//				{skip:(page-1)*ps,limit:ps},function(err,ocases){
+//			res.send(
+//				{error:err,
+//				count:count,
+//				page:page,
+//				isFirstPage: (page - 1) == 0,
+//				isLastPage: ((page - 1) * ps + ocases.length) == count,
+//				cases:ocases});
+//		});
+//	});
+//	
+//
+//});
 
 /**
  * update a case : subject/description/tag
@@ -195,7 +197,7 @@ router.get('/cases_page',function(req,res){
 //				});
 //			});
 //});
-router.put('/cases/:id',function(req,res){
+router.put('/api/cases/:id',function(req,res){
 	console.log(JSON.stringify(req.body));
 	OCase.findByIdAndUpdate(req.params.id,
 			//req.body, //work fine on 2.6
@@ -214,7 +216,7 @@ router.put('/cases/:id',function(req,res){
 /**
  * delete a case
  */
-router.delete('/cases/:id',function(req,res){
+router.delete('/api/cases/:id',function(req,res){
 	OCase.remove({_id:req.params.id},function(err,count){
 		//delete steps
 		Step.remove({caseid:req.params.id},function(err,scnt){
@@ -231,7 +233,7 @@ router.delete('/cases/:id',function(req,res){
 //#####################################################################
 //       steps 
 //#####################################################################
-router.get('/steps',function(req,res){
+router.get('/api/steps',function(req,res){
 	res.set('Content-Type', 'application/json');
 	Step.find({caseid:req.query.caseid},
 				null,
@@ -240,13 +242,13 @@ router.get('/steps',function(req,res){
 	});
 });
 
-router.post('/steps',function(req,res){
+router.post('/api/steps',function(req,res){
 	new Step(req.body).save( function( err, step){
 	    res.send(step);
 	  });
 });
 
-router.put('/steps/:id',function(req,res){
+router.put('/api/steps/:id',function(req,res){
 	Step.findByIdAndUpdate(req.params.id,
 			{step:req.body.step,
 			 note:req.body.note
@@ -257,7 +259,7 @@ router.put('/steps/:id',function(req,res){
 			});
 });
 
-router.delete('/steps',function(req,res){
+router.delete('/api/steps',function(req,res){
 	Step.remove(function(err,count){
 		res.send({error:err,count:count});
 	});
@@ -265,41 +267,57 @@ router.delete('/steps',function(req,res){
 //#####################################################################
 //TODOS
 //#####################################################################
-router.get('/todos',function(req,res){
-	res.set('Content-Type', 'application/json');
-	Todo.find({caseid:req.query.caseid,stepIndex:req.query.stepIndex},
+router.get('/api/todos',function(req,res){
+	console.log('get todos');
+	Todo.find({status:0},
 				null,
 				null,function(err,todos){
 			res.send(todos);
 	});
 });
 
-router.post('/todos',function(req,res){
-	new Todo(req.body).save( function( err, todo){
-	    res.send(todo);
+router.post('/api/todos',function(req,res){
+	console.log('post todo:'+req.body);
+	new Todo({todo:req.body.todo,
+		priority:0,
+		status:0}).save( function( err, todo){
+			res.send(todo);
 	  });
 });
 
-router.put('/todos/:id',function(req,res){
+router.put('/api/todos/:id',function(req,res){
 	Todo.findByIdAndUpdate(req.params.id,
 			{todo:req.body.todo,
-			 note:req.body.note
-			},
+			 note:req.body.note,
+			 dotime:new Date(),
+			 priority:req.body.priority,
+			 caseid:req.body.caseid,
+			 status:req.body.status},
 			function(err,ocase){
 				console.log("error when update a todo:"+err);
 				res.send({error:err,todo:todo});
 			});
 });
 
-router.delete('/todos',function(req,res){
-	Todo.remove(function(err,count){
-		res.send({error:err,count:count});
-	});
+router.delete('/api/todos/:id',function(req,res){
+//	Todo.remove({_id:req.params.id},function(err,count){
+//		res.send({error:err,count:count});
+//	});
+	
+	Todo.findByIdAndUpdate(req.params.id,
+			{dotime:new Date(),
+			 status:9},
+			function(err,todo){
+				console.log("error when update a todo:"+err);
+				res.send({error:err,todo:todo});
+			});
 });
+
+
 //#####################################################################
 //Comments
 //#####################################################################
-router.post('/comments/new',function(req,res){
+router.post('/api/comments/new',function(req,res){
 	var comment = {ctime:new Date()};
 	comment.uid = req.body.uid;
 	comment.caseid=req.body.caseid;

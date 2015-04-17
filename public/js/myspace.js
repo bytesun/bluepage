@@ -1,17 +1,19 @@
 MySpace = new Backbone.Marionette.Application();
 
 MySpace.NoticeView = Marionette.ItemView.extend({
-	template:"#missing-case-view"
+	template:"#notice-view"
 });
 
 MySpace.addRegions({
 	  headerRegion: "#header-region",
+	  menuRegion:"#menu-region",
 	  mainRegion: "#main-region",
+	  messageRegion:"#message-region",
 	  dialogRegion: Marionette.Region.Dialog.extend({
 		el:"#dialog-region"  
 	  })
 
-	});
+});
 
 
 MySpace.navigate = function(route,options){
@@ -26,7 +28,7 @@ MySpace.getCurrentRoute = function(){
 		 Backbone.history.start();
 	
 		 if(this.getCurrentRoute()  == ""){
-			 MySpace.trigger('cases:list');
+			 MySpace.trigger('todos:list');
 		 }
 	 }
  });

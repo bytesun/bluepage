@@ -9,13 +9,13 @@ MySpace.module("CaseApp", function(CaseApp, MySpace,Backbone, Marionette, $, _){
 	});
 	var API = {
 			listCases:function(criterion){
-				CaseApp.List.Controller.listCases(criterion);
+				CaseApp.Controller.Case.listCases(criterion);
 			},	
 			showCase:function(id){
-				CaseApp.Show.Controller.showCase(id);
+				CaseApp.Controller.Case.showCase(id);
 			},
 			editCase:function(id){
-				CaseApp.Edit.Controller.editCase(id);
+				CaseApp.Controller.Case.editCase(id);
 			}
 	};
 	

@@ -17,8 +17,10 @@
 
  var initializeHeaders = function(){
 	 Entities.headers = new Entities.HeaderCollection([
+	 { name: "Todos", url: "todos" },
 	 { name: "Cases", url: "cases" },
-	 { name: "About", url: "about" }
+	 { name: "Ideas", url: "ideas" },
+	 { name: "Page", url: "page" }
 	 ]);
  };
 

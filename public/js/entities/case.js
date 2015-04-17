@@ -12,7 +12,7 @@ MySpace.module("Entities", function(Entities, MySpace,
 	        ctype:0,
 	        isprivate:false
 	      },	
-	      urlRoot: 'cases',
+	      urlRoot: '/api/cases',
 	      idAttribute: '_id',
 	      validate:function(attrs,options){
 	    	  console.log('trigger a case submit validation event.');
@@ -32,7 +32,7 @@ MySpace.module("Entities", function(Entities, MySpace,
 	
 	
 	Entities.OCaseCollection = Backbone.Collection.extend({
-		url:'cases',
+		url:'/api/cases',
 		model:Entities.OCase,
 		comparator:"startdate"
 	});	

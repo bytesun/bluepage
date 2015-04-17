@@ -38,6 +38,7 @@ var OCase = new Schema({
     isprivate  : Boolean,
     currentStep : Number,
     summary    : String,
+    parentid   : Schema.Types.ObjectId,
     uid        : Schema.Types.ObjectId
 
 });
@@ -53,7 +54,6 @@ var Step = new Schema({
 
 var Todo = new Schema({
 	   todo:String,
-	   note:String,
 	   priority:Number,
 	   owner:Schema.Types.ObjectId,
 	   caseid:Schema.Types.ObjectId,

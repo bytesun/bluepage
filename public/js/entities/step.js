@@ -8,12 +8,12 @@ MySpace.module("Entities",function(Entities,MySpace,Backbone,Marionette,$,_){
 			caseid:'',
 			createdate:new Date()
 		},
-		urlRoot:'steps',
+		urlRoot:'/api/steps',
 		idAttribute:'_id'
 	});
 	
 	Entities.StepCollection=Backbone.Collection.extend({
-		url:'steps',
+		url:'/api/steps',
 		model:Entities.Step,
 		comparator:'index'
 	});

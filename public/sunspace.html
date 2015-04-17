@@ -2,11 +2,11 @@
 <html>
 <head>
 
-  <title>My Case Space</title>
+  <title>My Bluepage Space</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>OpenCase</title>
+
   
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -23,7 +23,7 @@
 </head>
 <body>
 
-   <div class="container" >
+   		<!-- the whole page layout -->
 		<div class="row">
 			<div  id="header-region" class="col-md-12">
 			<hr>
@@ -31,20 +31,40 @@
 			
 		</div>    
     	<div class="row">
-	    	<div class="col-md-2">
+	    	<div id="menu-region" class="col-md-2">
 	    	</div>
 	    	
 	    	<div id="main-region"  class="col-md-8">
 	    	</div>
 	    	
-	    	<div class="col-md-2">
+	    	<div id="message-region" class="col-md-2">
 	    	</div>    	    	
 		</div>    	
+	
+	    <div id="dialog-region"></div>	
 
-    </div>
+<!-- --------------------------common------------------------------- -->
+    <script type="text/template" id="loading-view">
+      <h1><%- title %></h1>
+      <p><%- message %></p>
+      <div id="spinner"></div>
+    </script>
+<!-- -------------------------TODOS-------------------------------- -->
+    
+    <script type="text/template" id="todo-layout">
+ 		<div id="todo-panel-region">
+			<input type="text" id="todo" placeholder="TODO" required>
+			<input id="save-todo" type="submit" name="save" value="save">
+		</div>
+ 		<div id="todo-list-region"></div>
 
-    <div id="dialog-region"></div>	
+ 	</script>
+ 	   
+     <script type="text/template" id="todo-item">
+		<input type="checkbox" id="todo-item" value="<%=_id%>">  <%= todo %>
+	</script>
 
+	<!-- ------------------------------templates----------------------------------- -->
     <script type="text/template" id="header-template">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -55,7 +75,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">SunSpace</a>
+      <a class="navbar-brand" href="/">My Space</a>
     </div>
       <ul class="nav navbar-nav">
         
@@ -70,10 +90,10 @@
     </script>	
 	
 	
-<script type="text/template" id="case-list-layout">
- <div id="panel-region"></div>
- <div id="cases-region"></div>
- </script>
+		<script type="text/template" id="case-list-layout">
+ 			<div id="panel-region"></div>
+ 			<div id="cases-region"></div>
+ 		</script>
 
  <script type="text/template" id="case-list-panel">
  	<button class="btn btn-primary js-new">New case</button>
@@ -103,15 +123,11 @@
 </script>
 
 <script type="text/template" id="case-view">
-	 <h1 class="text text-primary"><%=subject%></h1>
-	<hr>
-
+	 <h1 class="text text-primary"><%=subject%>  <a class="js-edit glyphicon glyphicon-edit"></a></h1>
 	<p><%-description%></p>	
  	<p><%=startdate%></p>
 	<button name="step-new" class="glyphicon glyphicon-plus btn btn-success js-newStep" >Step</button>
-
-	
-	
+	<hr>
 </script>
 
     <script type="text/template" id="case-form">
@@ -122,7 +138,7 @@
         </div>
         <div class="form-group">
           <label for="contact-lastName" class="control-label">Description:</label>
-          <textarea id="case-description" class="form-control input-default" name="description" type="text" rows="10" value="<%- description %>"></textarea>
+          <textarea id="case-description" class="form-control input-default" name="description" type="text" rows="10" value="<%- description %>"><%= description %></textarea>
         </div>
         <div class="form-group">
           <label for="contact-phoneNumber" class="control-label">tags:</label>
@@ -135,25 +151,12 @@
       <td colspan="3">No contacts to display.</td>
     </script>    
 <!-- -----------------------------steps------------------------------------- -->
-<script type="text/template" id="step-list-layout">
-
- 	<div id="index-region"></div>
-	<div id="step-region"></div>
-	
-	<div id="todo-region"></div>
- </script>
- <script type="text/template" id="step-item-template">
-		<a class="tabindex" href="#<%= index %>" data-toggle="tab"> [<%= index %>]<%=step%> </a>
-</script>
-
- <script type="text/template" id="step-tab-content-template">
-		
-
+	 <script type="text/template" id="step-item-template">
+		<h3> <%=step%>  <a class="js-edit-step glyphicon glyphicon-edit"></a></h3>
 		<p> <%-note%></p>
-	    <div class="todolist">
-			
-		</div>
-</script>
+		<hr>
+	</script>
+
    
     <script type="text/template" id="step-form">
       <form>
@@ -163,47 +166,14 @@
         </div>
         <div class="form-group">
           <label for="step-note" class="control-label">Note:</label>
-          <textarea id="step-note" class="form-control input-default" name="note" type="text" rows="10" value="<%- note %>"></textarea>
+          <textarea id="step-note" class="form-control input-default" name="note" type="text" rows="10" value="<%- note %>"><%- note %></textarea>
         </div>
       </form>
     </script>    
     
-    <!-- -------------------------TODOS-------------------------------- -->
-      <script type="text/template" id="todo-form">
-      <form>
-        <div class="form-group">
-          <label for="tocod-todo" class="control-label">Todo:</label>
-          <input id="todo-todo" class="form-control input-default" name="todo" type="text" size="80" value="<%= todo %>"/>
-        </div>
-        <div class="form-group">
-          <label for="todo-note" class="control-label">Note:</label>
-          <textarea id="todo-note" class="form-control input-default" name="note" type="text" rows="10" value="<%- note %>"></textarea>
-        </div>
-      </form>
-    </script>   
-    
-<script type="text/template" id="step-view-layout">
- <div id="step-region"></div>
- <div id="todo-region"></div>
- </script>    
-     <script type="text/template" id="todo-item-template">
-		<span class="glyphicon glyphicon-check"> - <%= todo %></span> 
-	</script>
-	 <script type="text/template" id="todo-list-template">
-		
-	</script>
+
 	
-<!-- --------------------------common------------------------------- -->
-    <script type="text/template" id="loading-view">
-      <h1><%- title %></h1>
-      <p><%- message %></p>
-      <div id="spinner"></div>
-    </script>
  
-    <script type="text/template" id="about-message">
-      <h1>Build your solution</h1>
-      <p>Sharing, Digging, Collaboration, Tracking ...</p>
-    </script>
 </body>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -219,10 +189,9 @@
 	<script src="./js/vendor/backbone.picky.js"></script>
 	<script src="./js/vendor/backbone.syphon.min.js"></script>
 	
-	
-	<script type="text/javascript" src="./js/apps/config/marionette/regions/dialog.js"></script>
-	
+	<script type="text/javascript" src="./js/common/marionette/regions/dialog.js"></script>
 	<script type="text/javascript" src="./js/myspace.js"></script>
+	<script type="text/javascript" src="./js/common/views.js"></script>
 	
 	<script type="text/javascript" src="./js/entities/case.js"></script>
 	<script type="text/javascript" src="./js/entities/common.js"></script>
@@ -230,31 +199,24 @@
 	<script type="text/javascript" src="./js/entities/step.js"></script>
 	<script type="text/javascript" src="./js/entities/todo.js"></script>
 	
-	<script type="text/javascript" src="./js/apps/about/show/show_view.js"></script>
-	<script type="text/javascript" src="./js/apps/about/show/show_controller.js"></script>
-	<script type="text/javascript" src="./js/apps/about/about_app.js"></script>
+	<script type="text/javascript" src="./js/apps/todo/todo_app.js"></script>
+	<script type="text/javascript" src="./js/apps/todo/view.js"></script>
+	<script type="text/javascript" src="./js/apps/todo/controller.js"></script>
 	
-	<script type="text/javascript" src="./js/apps/header/list/list_view.js"></script>
-	<script type="text/javascript" src="./js/apps/header/list/list_controller.js"></script>
+	
+	<script type="text/javascript" src="./js/apps/header/view.js"></script>
+	<script type="text/javascript" src="./js/apps/header/controller.js"></script>
 	<script type="text/javascript" src="./js/apps/header/header_app.js"></script>
 	
-	<script type="text/javascript" src="./js/apps/case/common/views.js"></script>
 	<script type="text/javascript" src="./js/apps/case/case_app.js"></script>
-	<script type="text/javascript" src="./js/apps/case/list/list_view.js"></script>
-	<script type="text/javascript" src="./js/apps/case/list/list_controller.js"></script>
-	<script type="text/javascript" src="./js/apps/case/new/new_view.js"></script>
-	<script type="text/javascript" src="./js/apps/case/edit/edit_controller.js"></script>
-	<script type="text/javascript" src="./js/apps/case/edit/edit_view.js"></script>
-	<script type="text/javascript" src="./js/apps/case/show/show_controller.js"></script>
-	<script type="text/javascript" src="./js/apps/case/show/show_view.js"></script>
+	<script type="text/javascript" src="./js/apps/case/view.js"></script>
+	<script type="text/javascript" src="./js/apps/case/controller.js"></script>
 	
-	<script type="text/javascript" src="./js/apps/step/common/views.js"></script>
-	<script type="text/javascript" src="./js/apps/step/new/new_view.js"></script>
-	<script type="text/javascript" src="./js/apps/step/list/list_view.js"></script>
-	<script type="text/javascript" src="./js/apps/step/list/list_controller.js"></script>
+	<script type="text/javascript" src="./js/apps/step/step_app.js"></script>
+	<script type="text/javascript" src="./js/apps/step/view.js"></script>
+	<script type="text/javascript" src="./js/apps/step/controller.js"></script>
+
 	
-	<script type="text/javascript" src="./js/apps/todo/common/views.js"></script>
-	<script type="text/javascript" src="./js/apps/todo/new/new_view.js"></script>
-	<script type="text/javascript" src="./js/apps/todo/list/list_view.js"></script>
+
 	
 </html>

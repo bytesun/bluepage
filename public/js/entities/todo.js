@@ -4,27 +4,28 @@ MySpace.module("Entities",function(Entities,MySpace,Backbone,Marionette,$,_){
 			_id:null,
 			todo:'',
 			note:'',
-			stepid:'',
+			caseid:'',
 			priority:10,
 			status:0,
-			createdate:new Date()
+			dotime:null,
+			owner:null
 		},
-		urlRoot:'todos',
+		urlRoot:'/api/todos',
 		idAttribute:'_id'
 	});
 	
 	Entities.TodoCollection=Backbone.Collection.extend({
-		url:'todos',
+		url:'/api/todos',
 		model:Entities.Todo,
-		comparator:'createdate'
+		comparator:'priority'
 	});
 	
 	var API = {
-			getTodos:function(caseid,stepIndex){
+			getTodos:function(owner){
 				var todos = new Entities.TodoCollection();
 				var defer = $.Deferred();
 				todos.fetch({
-					data:{caseid:caseid,stepIndex:stepIndex},
+					data:{owner:owner},
 					success:function(data){
 						defer.resolve(data);
 					}
@@ -50,8 +51,9 @@ MySpace.module("Entities",function(Entities,MySpace,Backbone,Marionette,$,_){
 			}
 	
 	}
-	MySpace.reqres.setHandler("entities:todos",function(caseid,stepIndex){
-		return API.getTodos(caseid,stepIndex);
+	MySpace.reqres.setHandler("entities:todos",function(owner){
+		console.log('calling entities:todos');
+		return API.getTodos(owner);
 	});
 	MySpace.reqres.setHandler("entity:todo",function(stepid){
 		return API.getTodo(id);

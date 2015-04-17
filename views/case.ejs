@@ -3,7 +3,16 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h1><%=ocase.subject%></h1>
+
+				<h1>
+			    <!--
+			    <%if(ocase.parentid){%>
+				<a href="/cases/<%=ocase.parentid%>" class="glyphicon glyphicon-step-backward"></a>
+				<%}%>	
+				-->			
+				<%=ocase.subject%>
+				</h1>
+				<label class="label label-primary"><%=ocase.tags%></label>
 				<%=ocase.startdate%>
 				<p><%-ocase.description%></p>	
 				<hr>
@@ -46,7 +55,7 @@
 					<% if (s.subcase == undefined){%>
 					<h3 class=""><%=s.step%></h3>
 					<%}else{%>  
-					<a href="/cases/<%=s.subcase%>"+><h3 class="glyphicon glyphicon-check"><%=s.step%></h3></a>
+					  <h3><%=s.step%><a href="/cases/<%=s.subcase%>" class="glyphicon glyphicon-step-forward"></a></h3>
 					<%}%>
 					<p><%=s.createdate%></p>
 					<p><%=s.note%></p>

@@ -1,12 +1,12 @@
 MySpace.module("HeaderApp", function(Header, MySpace, Backbone, Marionette, $, _){
  var API = {
 	 listHeader: function(){
-		 Header.List.Controller.listHeader();
+		 Header.Controller.Header.listHeader();
 	 }
  };
 
  MySpace.commands.setHandler("set:active:header", function(name){
-	 MySpace.HeaderApp.List.Controller.setActiveHeader(name);
+	 MySpace.HeaderApp.Controller.Header.setActiveHeader(name);
  });
 
  Header.on("start", function(){

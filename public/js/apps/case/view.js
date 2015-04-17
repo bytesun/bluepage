@@ -1,4 +1,4 @@
-MySpace.module("CaseApp.List", function(List, MySpace,Backbone, Marionette, $, _){
+MySpace.module("CaseApp.View", function(View, MySpace,Backbone, Marionette, $, _){
 	
 	var NoCasesView = Marionette.ItemView.extend({
 		template:"#case-list-none",
@@ -6,7 +6,56 @@ MySpace.module("CaseApp.List", function(List, MySpace,Backbone, Marionette, $, _
 		className:"alert"
 	});
 	
-	List.OCaseView = Marionette.ItemView.extend({
+	View.NewCase =  MySpace.Common.Views.Form.extend({
+		title :"New Case",			
+		template:"#case-form",
+		onRender: function(){
+			this.$(".js-submit").text("Create case");
+		}
+	});	
+	
+	View.EditCase = MySpace.Common.Views.Form.extend({
+		template:"#case-form",
+		initialize:function(){
+			this.title = "Edit " + this.model.get("subject");
+		},		
+		onRender:function(){
+			this.$(".js-submit").text("Update case");
+		}
+	});	
+	
+	View.ShowCase = Marionette.ItemView.extend({
+		template:"#case-view",
+		events:{
+			"click a.js-edit":"editClicked",
+			"click button.js-newStep":"newStepClicked"
+		},
+		editClicked:function(e){
+			e.preventDefault();
+			this.trigger("case:edit",this.model);
+		},
+		newStepClicked:function(e){
+			e.preventDefault();
+			this.trigger("step:form",this.model);
+		}
+			
+	});
+
+
+//	
+	View.ShowLayout = Marionette.LayoutView.extend({
+		template:"#case-view-layout",
+		regions:{
+			caseViewRegion:"#case-view-region",
+			stepsViewRegion:"#steps-view-region"
+		}
+	});	
+	
+	View.ShowMissingCase = Marionette.ItemView.extend({
+		template:"#missing-case-view"
+	});	
+	
+	View.OCaseView = Marionette.ItemView.extend({
 		tagName:'div',
 		template:'#case-item-template',
 		events:{
@@ -40,9 +89,9 @@ MySpace.module("CaseApp.List", function(List, MySpace,Backbone, Marionette, $, _
 	});
 
 
-	List.OCaseCollectionView = Marionette.CollectionView.extend({
+	View.OCaseCollectionView = Marionette.CollectionView.extend({
 		emptyView:NoCasesView,
-		childView:List.OCaseView,
+		childView:View.OCaseView,
 		initialize:function(){
 			this.listenTo(this.collection, "reset", function(){
 				 this.appendHtml = function(collectionView, itemView, index){
@@ -57,7 +106,7 @@ MySpace.module("CaseApp.List", function(List, MySpace,Backbone, Marionette, $, _
 		}
 	});
 	
-	List.Layout = Marionette.LayoutView.extend({
+	View.Layout = Marionette.LayoutView.extend({
 		template:"#case-list-layout",
 		regions:{
 			panelRegion:"#panel-region",
@@ -65,7 +114,7 @@ MySpace.module("CaseApp.List", function(List, MySpace,Backbone, Marionette, $, _
 		}
 	});
 	
-	List.Panel = Marionette.ItemView.extend({
+	View.Panel = Marionette.ItemView.extend({
 		template:"#case-list-panel",
 		triggers:{
 			"click button.js-new":"case:new"

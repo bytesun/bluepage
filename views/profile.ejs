@@ -1,25 +1,124 @@
 <%- include header %>
-	<!-- case list table -->
-	<div class="container">
-		<div class="col-md-12">
-		<h1><%=user.username%></h1>
-		<hr>
 
-			<ul class="list-group">
-				<% ocases.forEach(function (thecase,index){ %>
-					<li class="list-group-item">
-						<h2>
-						<a href="/cases/<%=thecase.id%>">
-						<%=thecase.subject%>
-						</a>
-						</h2>
-						<%-thecase.description%>	
-					</li>
-				<% }) %>
 
-			</ul>						
-
-	</div>
+	<div role="tabpanel">
 	
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+	    <li role="presentation"><a href="#cases" aria-controls="cases" role="tab" data-toggle="tab">Cases</a></li>
+	    <li role="presentation"><a href="#page" aria-controls="page" role="tab" data-toggle="tab">Page</a></li>
+	  </ul>
+	
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="home">
+			<!-- todo -->
+			<form id="todoForm">
+				  <div class="form-group">  	
+					   <input  class="form-control" type="text" name="todo" placeholder="todo item" required autofocus/>
+					   	<input id="postTodo" type="submit" value="Save" />
+				  </div>
+			</form>		
+			
+			<!-- todo list -->
+			<div>
+				<ul id="todolist" class="list-group">
+
+				</ul>
+			</div>												
+		</div>
+		
+		<!--cases-->
+	    <div role="tabpanel" class="tab-pane" id="cases">
+			<div>
+
+			<form method="post" action="/cases/new">
+			
+			      <h1>Create a new case :</h1>
+				  <input type="hidden" name="isprivate" value="false">
+				  
+				  <div class="form-group">  	
+					   <input  class="form-control" type="text" name="subject" placeholder="case subject" required autofocus/>
+				  </div>
+				  
+				  <div class="form-group"> 
+				  	 <label> Description: </label>
+				  	<textarea class="form-control richtextarea" name="description" rows="20"></textarea>
+				  </div>
+				  <div class="form-group">
+				  <label>Tags:</label>
+				  <input type="text" name="tags" />
+				   <input type="submit" value="Save" />
+				  </div>
+			</form>	
+				
+				<ul class="list-group">
+					<% ocases.forEach(function (thecase,index){ %>
+						<li class="list-group-item">
+							<h2>
+							<a href="/cases/<%=thecase.id%>">
+							<%=thecase.subject%>
+							</a>
+							</h2>
+							<%-thecase.description%>	
+						</li>
+					<% }) %>
+	
+				</ul>						
+
+			</div>		
+		</div>
+	    
+	    <div role="tabpanel" class="tab-pane" id="page">...</div>
+	  </div>
+	
+	</div>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+		$.ajax({
+			url:'/todos',
+			dataType:'json',
+			success:function(data){
+				$.each(data, function(index, todo){
+					console.log('todo:'+todo.todo);
+					$('#todolist').append('<li class="list-group-item"><a id="todo_<%=todo._id%>" href="/todos/<%=todo._id%>">Edit</a> - '+todo.todo+'</li>');
+				});
+			}
+		});
+		
+	   //new todo	
+	   $("#postTodo").click(function(e) {
+	     $.ajax({
+	    	type: "post",
+	        url:'/todos',
+	     	data:$('#todoForm').serialize(),
+	        success:function(data) {
+	           	console.log(data);
+	        }
+	     });
+   	  }); 
+   	 
+   	  //update todo
+		$("a[id|='todo']").each(function() {
+	            $(this).click(function(e) {
+	            	event.preventDefault();
+           	 var svid = $(this).attr('id');
+           	 var vid = svid.substring(svid.lastIndexOf('-')+1);
+           	  console.log(vid);
+  	          $.ajax({
+ 	             url:$(this).attr('href'),
+ 	             success:function(data) {
+ 					console.log('vid='+vid);
+ 					var orivote = parseInt($('#proposal-score-'+vid).text());
+ 					$('#proposal-score-'+vid).html(orivote-1);
+ 	             }
+ 	          });					
+	         });
+    	});    	  					
+  }); 
+</script>	
 	
 <%- include footer %>

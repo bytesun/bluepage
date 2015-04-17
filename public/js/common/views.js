@@ -1,4 +1,4 @@
-MySpace.module("StepApp.Common.Views",function(Views,MySpace,Backbone,Marionette,$,_){
+MySpace.module("Common.Views",function(Views,MySpace,Backbone,Marionette,$,_){
 	Views.Loading = Marionette.ItemView.extend({
 		template:"#loading-view",
 		initialize:function(options){
@@ -38,12 +38,25 @@ MySpace.module("StepApp.Common.Views",function(Views,MySpace,Backbone,Marionette
 	
 	Views.Form = Marionette.ItemView.extend({
 		
+//		events:{
+//			"click button.js-submit":"submitClicked",
+//			"click button.js-close" : "closeClicked"	
+//		},
+//		
+//		closeClicked: function(e){
+//			this.trigger("form:close");
+//		},
+//		submitClicked:function(e){
+//			e.preventDefault();
+//			var data = Backbone.Syphon.serialize(this);
+//			this.trigger("form:submit", data);
+//		},
 		onFormDataInvalid : function(errors){
 			var self = this;
 			
 			var markErrors = function(value, key){
 				console.log('notice error when it is invalid:'+value);
-				var $controlGroup =  self.$el.find("#step-"+key).parent();
+				var $controlGroup =  self.$el.find("#case-"+key).parent();
 				var $errorEl = $("<div>",{class:"alert alert-warning",text:key+' '+value});
 				$controlGroup.append($errorEl).addClass("error");
 				
