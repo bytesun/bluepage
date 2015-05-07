@@ -14,7 +14,7 @@ MySpace.module("TodoApp.Controller", function(Controller, MySpace,Backbone, Mari
 					var newTodo = new MySpace.Entities.Todo();
 					//new todo
 					todoLayout.on("todo:new",function(todo){
-						console.log('save a new todo'+todo);						
+							
 						if(newTodo.save(todo,{ priority: -9 }, {validation: true})){
 							todos.add(newTodo);
 						}					

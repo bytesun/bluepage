@@ -18,4 +18,6 @@ router.get('/ideas', function(req, res) {
 router.get('/cases', function(req, res) {
     res.redirect('/cases/list');
 });
+
+
 module.exports = router;

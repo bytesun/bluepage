@@ -24,11 +24,12 @@ MySpace.getCurrentRoute = function(){
 	return Backbone.history.fragment;
 }
  MySpace.on("start", function(){
+	 MySpace.trigger('todos:list');
 	 if(Backbone.history){
 		 Backbone.history.start();
 	
 		 if(this.getCurrentRoute()  == ""){
-			 MySpace.trigger('todos:list');
+			
 		 }
 	 }
  });

@@ -7,12 +7,12 @@ var OCase     = mongoose.model( 'OCase' );
 var Step = mongoose.model('Step');
 var Todo = mongoose.model('Todo');
 
-router.get('/login', function(req, res) {
-	if(req.user != null){
-		res.redirect('/userprofile');
-	}
-    res.render('login');
-});
+//router.get('/login', function(req, res) {
+//	if(req.user != null){
+//		res.redirect('/userprofile');
+//	}
+//    res.render('login');
+//});
 
 router.get('/signup', function(req, res) {
     res.render('signup');
@@ -46,4 +46,16 @@ router.delete('/users/del/:id',function(req,res){
 	});
 
 });
+
+router.get('/api/user', function(req, res) {
+	
+	User.findById({},
+			null,
+			null,function(err,user){
+		res.send({user:user});
+
+	});	
+    
+});
+
 module.exports = router;

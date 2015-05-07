@@ -24,7 +24,6 @@ MySpace.module("TodoApp.View",function(View,MySpace,Backbone,Marionette,$,_){
 	
 	
 	View.TodoItem = Marionette.ItemView.extend({
-		tagName:"li",
 		className:"list-group-item",
 		template:"#todo-item",
 		events:{
@@ -37,7 +36,6 @@ MySpace.module("TodoApp.View",function(View,MySpace,Backbone,Marionette,$,_){
 			
 	});
 	View.TodoCollection = Marionette.CollectionView.extend({
-		tagName:"ul",
 		className:"list-group",
 		childView:View.TodoItem
 	});

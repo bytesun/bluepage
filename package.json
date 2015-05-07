@@ -25,6 +25,7 @@
       "body-parser" : "~1.4.2",
       "method-override" : "~2.0.2",
       "bcryptjs": "^2.1.0",
+      "csurf":"^1.8.0",
     	    "serve-favicon": "2.1.7",
     	    "morgan": "~1.0.0",
     	    "cookie-parser": "~1.0.1",
@@ -45,5 +46,5 @@
   "devDependencies": {},
   "bundleDependencies": [],
   "private": true,
-  "main": "app.js"
+  "main": "server.js"
 }

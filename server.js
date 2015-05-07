@@ -8,7 +8,8 @@ var express        = require('express');
  favicon = require('serve-favicon'),
  logger = require('morgan'),
  bcrypt = require('bcryptjs'),
- cookieParser = require('cookie-parser');
+ cookieParser = require('cookie-parser'),
+ csrf = require('csurf');
 
 
 
@@ -106,7 +107,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
-app.use(favicon(__dirname + '/public/img/favicon.ico'));
+app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));
 app.use(session({secret: 'ssssffffopencase',saveUninitialized: true, resave: true}));
 
 app.use(passport.initialize());
@@ -127,32 +128,57 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public')); 
 
+app.use(csrf());
+
 // routes ==================================================
 app.use('/', index);
 app.use('/', user);
 app.use('/', ocase);
 
-  app.post("/signin",passport.authenticate('signin', {
-		successRedirect : '/profile', 
+	app.get("/login", function(req, res){
+		console.log('load login');
+	    res.render('login', { csrfToken: req.csrfToken() });
+	});
+
+	app.get("/myspace", function(req, res){
+		console.log('load myspace page');
+	    res.render('myspace', { csrfToken: req.csrfToken() });
+	});
+	
+	app.get("/api/auth", function(req, res){
+//		if(req.user){
+//			res.cookie('user_id', req.user._id, { signed: true, maxAge: config.cookieMaxAge  });
+//			res.cookie('auth_token', req.user.auth_token, { signed: true, maxAge: config.cookieMaxAge  });
+//			res.render({ user: _.omit(user, ['password', 'auth_token']) });
+//		}else{
+//			res.render({ error:"no valide login cookie"});
+//		}	
+			console.log('check authentication');
+//			res.cookie('user_id', 'orcsun');
+//			res.cookie('auth_token', 'sldjflsdjf;las');
+			res.send({ user: {id:'orcsun',username:'orcsun',name:'sun',email:'orcsun@163.com'} });			
+	});
+	
+	app.post("/api/auth/signin",passport.authenticate('signin', {
+		successRedirect : '/', 
 		failureRedirect : '/login',
 		successFlash : 'successfully login',
 		failureFlash : true 
 	}));
 
-  app.get("/signup",isLoggedIns,function(req,res){
-	res.render("login",{ message: req.flash('signupError') });
-  });
-
-  app.post("/signup",passport.authenticate('signup', {
+  app.post("/api/auth/signup",passport.authenticate('signup', {
 		successRedirect : '/profile', 
 		failureRedirect : '/signup',
 		failureFlash : true 
 	}));
-  
+
+
+
   app.get("/profile",isLoggedIn,function(req,res)
   {
-	//res.render("profile",{user : req.user });
-	  res.redirect('/userprofile');
+	console.log('profile calling');
+	res.redirect("/login");
+	 // res.send(req.user);
   });
 
   app.get('/logout',isLoggedIn, function(req, res) {
@@ -165,8 +191,9 @@ app.use('/', ocase);
   function isLoggedIn(req, res, next) {	
  	if (req.isAuthenticated()){
  		return next();
+ 	}else{
+ 		res.send(401);
  	}
-	res.redirect('/login');
    }
 
    function isLoggedIns(req, res, next) {
