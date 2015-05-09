@@ -7,7 +7,9 @@ define([
 
 	return Marionette.AppRouter.extend({
 		appRoutes: {
-			"" : "index"
+			"" : "index",
+			"home" : "home",
+			"login" : "login"
 //            "logout" : "logout"
 
 		}

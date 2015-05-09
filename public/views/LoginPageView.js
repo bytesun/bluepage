@@ -1,16 +1,13 @@
 define([
-    "app",
-    "templates",
+    	'marionette',
+    	'templates',
     "parsley"
-], function(app,templates){
+], function(Marionette,templates){
 
-    var LoginView = Backbone.View.extend({
-
+	return Marionette.ItemView.extend({
+		template:templates.login_page,
         initialize: function () {
-//            _.bindAll(this);
 
-            // Listen for session logged_in state changes and re-render
-            app.session.on("change:logged_in", this.render);
         },
 
         events: {
@@ -56,7 +53,7 @@ define([
                 }, {
                     success: function(mod, res){
                         if(DEBUG) console.log("SUCCESS", mod, res);
-
+                        app.navigate('home',true)
                     },
                     error: function(err){
                         if(DEBUG) console.log("ERROR", err);
@@ -93,17 +90,8 @@ define([
                 if(DEBUG) console.log("Did not pass clientside validation");
 
             }
-        },
-
-        render:function () {
-            if(app.session.get('logged_in')) this.template =templates.loggedin_page;
-            else this.template = _.template(LoginPageTpl); 
-
-            this.$el.html(this.template({ user: app.session.user.toJSON() }));
-            return this;
         }
 
     });
 
-    return LoginView;
 });

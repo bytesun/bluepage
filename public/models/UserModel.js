@@ -6,7 +6,7 @@ define([
 ], function(app){
 
     var UserModel = Backbone.Model.extend({
-
+    	idAttribute: '_id',
         initialize: function(){
 //            _.bindAll(this);
         },

@@ -3,10 +3,12 @@ require([
 	'app',
 	"models/SessionModel",
     'modules/Pages',
+    'views/HeaderView',
     'jquery',
 	'bootstrap'
 
-], function (app,  SessionModel, PagesModule) {
+], function (app,  SessionModel, PagesModule,
+		HeaderView) {
 	'use strict';
 	
 	app.session = new SessionModel({});
@@ -16,12 +18,14 @@ require([
     app.session.checkAuth({
     	// Start the backbone routing once we have captured a user's auth status
         complete: function(){
-        	console.log('check auth...');
+  
             // HTML5 pushState for URLs without hashbangs
             var hasPushstate = !!(window.history && history.pushState);
             if(hasPushstate) Backbone.history.start({ pushState: true, root: '/myspace' });
             else Backbone.history.start();
-
+            app.userRegion.show(new HeaderView({
+            	model:app.session.user
+            }));
         }
     });
 

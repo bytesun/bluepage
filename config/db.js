@@ -3,17 +3,17 @@ var Hash = require('password-hash');
 var Schema   = mongoose.Schema;
 
 //users
-var User = new Schema({
-	uid : String,
-	username : String,
-	openid : String,
-	email : String,
-	password : String,
-	role : Number,
-	bio : String,
-	tags : String
-	
-});
+//var User = new Schema({
+//	uid : String,
+//	username : String,
+//	openid : String,
+//	email : String,
+//	password : String,
+//	role : Number,
+//	bio : String,
+//	tags : String
+//	
+//});
 
 
 var Follow = new Schema({
@@ -99,7 +99,7 @@ var Trace = new Schema({
 	
 });
 
-mongoose.model( 'User', User );
+//mongoose.model( 'User', User );
 mongoose.model( 'Follow', Follow );
 mongoose.model( 'Favorite', Favorite );
 mongoose.model( 'OCase', OCase );

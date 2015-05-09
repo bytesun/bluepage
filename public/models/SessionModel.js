@@ -31,6 +31,7 @@ define([
         // Fxn to update user attributes after recieving API response
         updateSessionUser: function( userData ){
             this.user.set(_.pick(userData, _.keys(this.user.defaults)));
+           
         },
 
 
@@ -54,7 +55,7 @@ define([
                         if('error' in callback) callback.error(mod, res);    
                     }
                 }, error:function(mod, res){
-                	
+                	console.log('authentication error');
                     self.set({ logged_in : false });
                     if('error' in callback) callback.error(mod, res);    
                 }
@@ -88,9 +89,9 @@ define([
 
                     if( !res.error ){
                         if(_.indexOf(['login', 'signup'], opts.method) !== -1){
-
+                        	console.log('fetch user is :'+JSON.stringify(res.user));
                             self.updateSessionUser( res.user || {} );
-                            self.set({ user_id: res.user.id, logged_in: true });
+                            self.set({ user_id: res.user._id, logged_in: true });
                         } else {
                             self.set({ logged_in: false });
                         }

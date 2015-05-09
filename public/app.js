@@ -3,70 +3,58 @@
 define([
     'backbone',
 	'marionette',
-//	'wreqr',
-//
-//	'models/SessionModel',
-//    'regions/notification',
-//    'regions/dialog',
+    'regions/notification',
+    'regions/dialog'
+
 //    'views/HomeView',
 //    'views/LoginView'
-], function (Backbone, Marionette
-//		Wreqr,
-//		SessionModel, NotifyRegion, 
-//		DialogRegion,
+], function (Backbone, Marionette,
+		NotifyRegion,
+		DialogRegion
+
 //		HomeView,
 //		LoginView
 		) {
 	'use strict';
 
 	var app = new Marionette.Application();
-//	var commands = new Backbone.Wreqr.Commands();
+
 	
 	app.addRegions({
-//		top: 'body',
-//		main: '#main',
-//		footer: '#footer',
-//        notification: {
-//            selector: "#notification",
-//            regionType: NotifyRegion
-//        },
-//        dialog: {
-//            selector: "#dialog",
-//            regionType: DialogRegion
-//        }
+		userRegion: '#user_region',
+		main: '#main',
+		footer: '#footer',
+        notification: {
+            selector: "#notification",
+            regionType: NotifyRegion
+        },
+        dialog: {
+            selector: "#dialog",
+            regionType: DialogRegion
+        }
 	});
-//	app.session = new SessionModel({});
-	   // Check the auth status upon initialization,
-    // before rendering anything or matching routes
-//    app.session.checkAuth({
-//
-//        // Start the backbone routing once we have captured a user's auth status
-//        complete: function(){
-//
-//            // HTML5 pushState for URLs without hashbangs
-//            var hasPushstate = !!(window.history && history.pushState);
-//            if(hasPushstate) Backbone.history.start({ pushState: true, root: '/tour' });
-//            else Backbone.history.start();
-//
-//        }
-//    });	
+
 	app.navigate = function(route,options){
 		options || (options = {});
 		Backbone.history.navigate(route, options);
 	}	
 	app.addInitializer(function () {
-//		app.main.show(new HomeView());
-
+		
 	});
 
     app.on("start", function(options){
-    	
-//        if (Backbone.history){
-//            Backbone.history.start();
-//        }
+
     });
 
-
+    app.showAlert = function(title, text, klass) {
+        $("#header-alert").removeClass("alert-danger alert-warning alert-success alert-info");
+        $("#header-alert").addClass(klass);
+        $("#header-alert").html('<button class="close" data-dismiss="alert">×</button><strong>' + title + '</strong> ' + text);
+        $("#header-alert").show('fast');
+        setTimeout(function() {
+            $("#header-alert").hide();
+        }, 7000 );
+    }
 
     /**
      * Sample JSON Data
