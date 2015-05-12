@@ -10,6 +10,9 @@ define([
         events:{
         	'click .home_link': 'home'
         },
+        onShow:function(e){
+ 
+        },
         home: function(e){
         	e.preventDefault();
         	console.log('click home link');

@@ -89,9 +89,11 @@ define([
 
                     if( !res.error ){
                         if(_.indexOf(['login', 'signup'], opts.method) !== -1){
-                        	console.log('fetch user is :'+JSON.stringify(res.user));
+                        	
                             self.updateSessionUser( res.user || {} );
                             self.set({ user_id: res.user._id, logged_in: true });
+                            
+                            console.log('session is :'+JSON.stringify(app.session));
                         } else {
                             self.set({ logged_in: false });
                         }

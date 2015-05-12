@@ -21,11 +21,11 @@ require([
   
             // HTML5 pushState for URLs without hashbangs
             var hasPushstate = !!(window.history && history.pushState);
-            if(hasPushstate) Backbone.history.start({ pushState: true, root: '/myspace' });
-            else Backbone.history.start();
-            app.userRegion.show(new HeaderView({
-            	model:app.session.user
-            }));
+//            if(hasPushstate) Backbone.history.start({ pushState: true, root: '/' });
+//            else 
+            	Backbone.history.start();
+            
+
         }
     });
 
@@ -41,6 +41,7 @@ require([
     });
     app.addInitializer(function() {
         PagesModule.start();
+      
     });
 
 	app.start();

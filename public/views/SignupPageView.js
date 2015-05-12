@@ -1,13 +1,11 @@
 define([
     	'marionette',
     	'templates',    
-    "views/HeaderView",
     "parsley"
-], function(Marionette,templates,
-		HeaderView){
+], function(Marionette,templates){
 
 	return Marionette.ItemView.extend({
-		template:templates.login_page,
+		template:templates.signup_page,
 		
         initialize: function () {
 

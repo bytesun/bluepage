@@ -9,7 +9,8 @@ define([
 		appRoutes: {
 			"" : "index",
 			"home" : "home",
-			"login" : "login"
+			"login" : "login",
+			"signup" : "signup"
 //            "logout" : "logout"
 
 		}

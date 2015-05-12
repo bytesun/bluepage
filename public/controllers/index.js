@@ -6,13 +6,15 @@ define([
     "models/SessionModel",
     "models/UserModel",
     "views/HomeView",
-    'views/LoginPageView'
+    'views/LoginPageView',
+    'views/SignupPageView'
 ], function (app,
 		templates,
 		SessionModel,
 		UserModel,
 		HomeView,
-		LoginPageView) {
+		LoginPageView,
+		SignupPageView) {
 	'use strict';
 
 	return {
@@ -20,17 +22,19 @@ define([
 	            // Fix for non-pushState routing (IE9 and below)
 	            var hasPushState = !!(window.history && history.pushState);
 	            if(!hasPushState) this.navigate(window.location.pathname.substring(1), {trigger: true, replace: true});
-	            else this.show(new HomeView);
+	            else this.show(new HomeView());
 	     },
 	     home: function(){	    	 
-	    	 app.main.show(new LoginPageView());
+	    	 app.main.show(new HomeView());
 	     },
         login:function(){
-//        	console.log('show login page');
-//        	app.main.show(new LoginPageView({
-//        		template:templates.login_page
-//        	}));
-        },	     
+        	console.log('show login page');
+        	this.show(new LoginPageView());
+        },	  
+        signup:function(){
+        	console.log('show signup page');
+        	this.show(new SignupPageView());
+        },	          
 	     show: function(view, options){
 	    	   console.log('show view:'+view);
 	            // Every page view in the router should need a header.

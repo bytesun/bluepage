@@ -14,11 +14,7 @@ var isAuthenticated = function (req, res, next) {
 module.exports = function(passport){
 
 	router.get('/', function(req, res) {
-    	// Display the Login page with any flash message, if any
-		res.render('index');
-	});
-	router.get('/myspace', function(req, res) {
-		res.render('myspace',{csrfToken: req.csrfToken()});
+		res.render('index',{csrfToken: req.csrfToken()});
 	});	
 	/* GET login page. */
 	router.get('/login', function(req, res) {
